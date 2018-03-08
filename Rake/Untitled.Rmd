@@ -1,0 +1,20 @@
+---
+title: "rake"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+library(tidyverse)
+library(irr)
+
+data <- read.csv("annotators.csv", sep = ";")
+speak <- data[,2:3]
+kappa2(speak)
+agree(speak)
+```
