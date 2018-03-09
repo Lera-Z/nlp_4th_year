@@ -23,6 +23,9 @@ import operator
 import six
 from six.moves import range
 from collections import Counter
+import nltk
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize.moses import MosesTokenizer
 
 debug = False
 test = False
@@ -56,9 +59,12 @@ def separate_words(text, min_word_return_size):
     @param text The text that must be split in to words.
     @param min_word_return_size The minimum no of characters a word must have to be included.
     """
+    # t = MosesTokenizer()
+
     splitter = re.compile('[^a-zA-Z0-9_\\+\\-/]')
     words = []
-    for single_word in splitter.split(text):
+    for single_word in word_tokenize(text):
+    # for single_word in splitter.split(text):
         current_word = single_word.strip().lower()
         # leave numbers in phrase, but don't count as words, since they tend to invalidate scores of their phrases
         if len(current_word) > min_word_return_size and current_word != '' and not is_number(current_word):
@@ -73,6 +79,7 @@ def split_sentences(text):
     """
     sentence_delimiters = re.compile(u'[\\[\\]\n.!?,;:\t\\-\\"\\(\\)\\\'\u2019\u2013]')
     sentences = sentence_delimiters.split(text)
+    # sentences = sent_tokenize(text)
     return sentences
 
 
